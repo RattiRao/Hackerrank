@@ -4,7 +4,7 @@ func queensAttack(n: Int, k: Int, r_q: Int, c_q: Int, obstacles: [[Int]]) -> Int
     
     if c_q != n{
         /// Horizontal forward
-        for i in (c_q + 1) ..< k+1{
+        for i in (c_q + 1) ..< n+1{
             if obstacles.contains([r_q,i]){
                 break
             }
@@ -59,6 +59,7 @@ func queensAttack(n: Int, k: Int, r_q: Int, c_q: Int, obstacles: [[Int]]) -> Int
         var column = c_q
         for i in stride(from: (r_q - 1), to: 0, by: -1){
             column += 1
+            if column > n { break }
             if obstacles.contains([i,column]){
                 break
             }
@@ -74,6 +75,7 @@ func queensAttack(n: Int, k: Int, r_q: Int, c_q: Int, obstacles: [[Int]]) -> Int
         var column = c_q
         for i in (r_q + 1) ..< n+1{
             column -= 1
+            if column < 1 { break }
             if obstacles.contains([i,column]){
                 break
             }
@@ -89,6 +91,7 @@ func queensAttack(n: Int, k: Int, r_q: Int, c_q: Int, obstacles: [[Int]]) -> Int
         var column = c_q
         for i in (r_q + 1) ..< n+1{
             column += 1
+            if column > n { break }
             if obstacles.contains([i,column]){
                 break
             }
@@ -104,6 +107,7 @@ func queensAttack(n: Int, k: Int, r_q: Int, c_q: Int, obstacles: [[Int]]) -> Int
         var column = c_q
         for i in stride(from: (r_q - 1), to: 0, by: -1){
             column -= 1
+            if column < 1 { break }
             if obstacles.contains([i,column]){
                 break
             }
