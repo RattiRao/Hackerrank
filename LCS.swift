@@ -7,11 +7,6 @@
 
 import UIKit
 
-struct Pair{
-    var value: Int
-    var diff: Int
-}
-
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
