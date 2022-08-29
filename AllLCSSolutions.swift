@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let lookup = findLCSLookup(A: "AABCDAB", B: "BABCBA", m: 7, n: 6)
-        print(longestCommonSubstring(A: "ABAB", B: "BABA", m: 0, n: 7))
+        print(printLongestRepeatedLCS(A: "ATACTCGGA", m: 8, n: 8))
     }
     
     func findLCS(A: String, B: String, m: Int, n: Int) -> Int {
@@ -213,7 +213,7 @@ class ViewController: UIViewController {
         return arrTop
     }
     
-    func longestPalindromLCS(A: String, m: Int, n: Int) -> Int{
+    func longestPalindromLCS(A: String, m: Int, n: Int) -> Int {
         if m == n {
             return 1
         }
@@ -226,6 +226,76 @@ class ViewController: UIViewController {
             return longestPalindromLCS(A: A, m: m+1, n: n-1) + 2
         }
         return max(longestPalindromLCS(A: A, m: m+1, n: n), longestPalindromLCS(A: A, m: m, n: n-1))
+    }
+    
+    func printLongestPalindromeLCS(A: String, m: Int, n: Int) -> String {
+        let lookup = findLCSLookup(A: A, B: String(A.reversed()), m: m, n: n)
+        return printLCS(A: A, B: String(A.reversed()), m: m, n: n, arrInfo: lookup)
+    }
+    
+    func longestRepeatedLCS(A: String, m: Int, n: Int) -> Int{
+        if m == 0 || n == 0 {
+            return 0
+        }
+        
+        let arrA = Array(A)
+        if (arrA[m-1] == arrA[n-1]) && m != n {
+            return longestRepeatedLCS(A: A, m: m-1, n: n-1) + 1
+        }
+        return max(longestRepeatedLCS(A: A, m: m-1, n: n), longestRepeatedLCS(A: A, m: m, n: n-1))
+    }
+    
+    func printLongestRepeatedLCS(A: String, m: Int, n: Int) -> String {
+        var lookup: [[Int]] = []
+        let arrA = Array(A)
+        
+        for i in 0 ... arrA.count {
+            var arrTemp: [Int] = []
+            for j in 0 ... arrA.count {
+                if i == 0 || j == 0 {
+                    arrTemp.append(0)
+                    continue
+                }
+                if (arrA[i-1] == arrA[j-1]) && i != j {
+                    let val = lookup[i-1][j-1] + 1
+                    arrTemp.append(val)
+                }
+                else if lookup[i-1][j] > arrTemp[j-1] {
+                    arrTemp.append(lookup[i-1][j])
+                }
+                else {
+                    arrTemp.append(arrTemp[j-1])
+                }
+            }
+            lookup.append(arrTemp)
+        }
+        
+        return printRepeatedLCS(A: A, B: A, m: m, n: n, arrInfo: lookup)
+    }
+    
+    func printRepeatedLCS(A: String, B: String, m: Int, n: Int, arrInfo: [[Int]]) -> String {
+        let arrA = Array(A)
+        let arrB = Array(B)
+        
+        var m = arrA.count
+        var n = arrB.count
+        var strLCS: String = ""
+        while m != 0 && n != 0 {
+            if (arrA[m-1] == arrB[n-1]) && m != n{
+                strLCS = String(arrA[m-1]) + strLCS
+                m = m-1
+                n = n-1
+            }
+            else {
+                if arrInfo[m-1][n] > arrInfo[m][n-1] {
+                    m = m-1
+                }
+                else {
+                    n = n-1
+                }
+            }
+        }
+        return strLCS
     }
 }
 
