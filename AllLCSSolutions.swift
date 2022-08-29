@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let lookup = findLCSLookup(A: "AABCDAB", B: "BABCBA", m: 7, n: 6)
-        print(longestCommonSubstring(A: "ABABC", B: "BABCA", m: 7, n: 6))
+        print(longestCommonSubstring(A: "ABAB", B: "BABA", m: 0, n: 7))
     }
     
     func findLCS(A: String, B: String, m: Int, n: Int) -> Int {
@@ -173,13 +173,9 @@ class ViewController: UIViewController {
                 strLCS = String(arrA[i-1]) + strLCS
                 i = i-1
                 j = j-1
+                continue
             }
-            else if lookup[i-1][j] > lookup[i][j-1] {
-                i = i-1
-            }
-            else {
-                j = j-1
-            }
+            break
         }
         return strLCS
     }
@@ -216,5 +212,21 @@ class ViewController: UIViewController {
         arrTop.append(contentsOf: arrLeft)
         return arrTop
     }
+    
+    func longestPalindromLCS(A: String, m: Int, n: Int) -> Int{
+        if m == n {
+            return 1
+        }
+        if m > n {
+            return 0
+        }
+        
+        let arrA = Array(A)
+        if arrA[m] == arrA[n] {
+            return longestPalindromLCS(A: A, m: m+1, n: n-1) + 2
+        }
+        return max(longestPalindromLCS(A: A, m: m+1, n: n), longestPalindromLCS(A: A, m: m, n: n-1))
+    }
 }
+
 
